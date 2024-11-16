@@ -1,8 +1,2 @@
-document.querySelector('.search-btn').addEventListener('click', () => {
-    const input = document.querySelector('.search-input').value.trim();
-    if (input) {
-        alert(`Searching for: "${input}"`);
-    } else {
-        alert('Please enter a search term!');
-    }
-});
+// Placeholder para futuras funcionalidades
+console.log("Search bar loaded successfully.");
