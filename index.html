@@ -3,27 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SorteoApp</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="description" content="An advanced, visually stunning search bar">
+    <title>Advanced Search Bar</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="main-container">
-        <img src="https://cdn.pixabay.com/photo/2024/08/31/18/47/18-47-52-728_960_720.png" alt="Logotipo" class="logo">
-        <h1>SorteoApp</h1>
-        <p>Ingresa al sorteo:</p>
-        <input type="text" id="name" placeholder="Tu nombre">
-        <button onclick="addParticipant()">Participar</button>
-
-        <h2>Participantes</h2>
-        <div class="glass-box">
-            <ul id="participantsList"></ul>
+    <div class="background-overlay">
+        <div class="search-wrapper">
+            <h1 class="main-title">Discover the Unseen</h1>
+            <p class="subtitle">Search for anything, anywhere.</p>
+            <div class="search-container">
+                <input 
+                    type="text" 
+                    class="search-input" 
+                    placeholder="Type to search..." 
+                    aria-label="Search input">
+                <button class="search-btn" aria-label="Search button">🔍</button>
+            </div>
         </div>
-
-        <h2>Ganador</h2>
-        <div id="digitalBoard">Nadie ha ganado aún</div>
-        <button onclick="pickWinner()">Elegir Ganador</button>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>
