@@ -1,2 +1,2 @@
-// Placeholder para futuras funcionalidades
+// Basic script placeholder
 console.log("Search bar loaded successfully.");
