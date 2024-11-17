@@ -1,68 +1,182 @@
-/* Reset */
-* {
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background-image: url(https://cdn.pixabay.com/photo/2016/03/28/09/54/fireworks-1285269_1280.jpg);
+  background-size: cover;
+  background-position: center;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
 }
 
-body, html {
-  height: 100%;
-  font-family: 'Arial', sans-serif;
-  overflow: hidden;
+.main-container {
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: rgba(124, 174, 254, 0.5);
+  border: 3mm solid gold;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  color: #333;
 }
 
-.background {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  background: url('./background.jpg') no-repeat center center/cover;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.logo {
+  max-width: 200px;
+  margin-bottom: 20px;
 }
 
-.search-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255, 255, 255, 0.8);
-  padding: 15px 20px;
-  border-radius: 50px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  animation: fadeIn 1.5s ease-in-out;
-}
-
-.search-input {
-  border: none;
-  padding: 10px 20px;
-  font-size: 18px;
-  border-radius: 50px;
-  outline: none;
-  flex: 1;
-}
-
-.search-button {
-  background: #007BFF;
+input, button {
+  padding: 10px;
+  margin: 10px;
+  border-radius: 5px;
+  border: 2px solid gold;
+  background-color: #333;
   color: #fff;
-  border: none;
-  border-radius: 50px;
-  padding: 10px 20px;
-  font-size: 18px;
+  font-size: 16px;
   cursor: pointer;
-  transition: background 0.3s;
 }
 
-.search-button:hover {
-  background: #0056b3;
+.buttons-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 10px;
 }
 
-@keyframes fadeIn {
+.buttons-container button {
+  padding: 10px;
+  font-size: 16px;
+  background-color: #333;
+  border: 2px solid gold;
+  border-radius: 50%;
+  cursor: pointer;
+  color: white;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.buttons-container button i {
+  margin: 0;
+  font-size: 20px;
+}
+
+.glass-box {
+  margin: 20px auto;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2mm solid gold;
+  border-radius: 10px;
+  overflow: hidden;
+  max-width: 600px;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  background-color: #001f3f;
+  color: white;
+  margin: 5px;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 18px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+li button {
+  background-color: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+li button i {
+  font-size: 18px;
+}
+
+#digitalBoard {
+  margin-top: 20px;
+  font-size: 22px;
+  font-weight: bold;
+  width: 65%;
+  max-width: 400px;
+  height: 45px;
+  margin: 20px auto;
+  color: #333;
+  background-color: rgba(249, 249, 249, 0.9);
+  padding: 20px;
+  border-radius: 10px;
+  border: 2mm solid gold;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+#digitalBoard.winner {
+  background-color: #FFD700;
+  color: #000;
+}
+
+#digitalBoard.winner::after {
+  content: "🎉🎉🎁🎁";
+  position: absolute;
+  font-size: 24px;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: sparkle 1s infinite alternate;
+}
+
+@keyframes sparkle {
   from {
-    opacity: 0;
-    transform: scale(0.9);
+    transform: scale(1);
   }
   to {
-    opacity: 1;
-    transform: scale(1);
+    transform: scale(1.2);
+  }
+}
+
+#pickWinnerBtn {
+  background-color: #333;
+  color: white;
+  border: 2px solid gold;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#pickWinnerBtn:active {
+  background-color: green;
+  color: black;
+}
+
+@media screen and (max-width: 600px) {
+  .main-container {
+    margin: 20px;
+    padding: 15px;
+  }
+
+  #digitalBoard {
+    max-width: 90%;
+    font-size: 18px;
+    padding: 15px;
+  }
+
+  #digitalBoard.winner::after {
+    font-size: 18px;
+    top: -20px;
   }
 }
