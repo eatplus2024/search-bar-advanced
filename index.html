@@ -5,28 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sorteo DeliPlan</title>
     <link rel="stylesheet" href="style.css">
-    <!-- FontAwesome para iconos -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <!-- Iconos de FontAwesome -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <div class="main-container">
+        <img src="https://cdn.pixabay.com/photo/2024/08/31/18/47/deliplan-9012182__340.png" alt="Logotipo" class="logo">
         <h1>Sorteo DeliPlan</h1>
         <p>Ingresa al sorteo:</p>
         <input type="text" id="name" placeholder="Tu nombre">
         <button onclick="addParticipant()">Participar</button>
 
         <h2>Participantes</h2>
+
+        <!-- Sección de botones fuera de la caja de participantes -->
         <div class="buttons-container">
-            <button onclick="clearParticipants()" title="Eliminar toda la lista">
-                <i class="fas fa-times-circle"></i>
-            </button>
+            <!-- Botones con iconos -->
+            <button id="editBtn" onclick="toggleEditMode()" title="Editar"><i class="fas fa-pencil-alt"></i></button>
+            <button id="deleteBtn" onclick="toggleDeleteMode()" title="Eliminar"><i class="fas fa-trash"></i></button>
+            <button onclick="clearParticipants()" title="Eliminar todo"><i class="fas fa-times-circle"></i></button>
         </div>
 
         <div class="glass-box">
             <ul id="participantsList"></ul>
         </div>
-
-        <img src="https://cdn.pixabay.com/photo/2024/08/31/18/47/deliplan-9012182__340.png" alt="Logotipo" class="logo">
 
         <h2>Ganador</h2>
         <div id="digitalBoard">Nadie ha ganado aún</div>
