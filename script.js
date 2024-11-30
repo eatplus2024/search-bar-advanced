@@ -1,4 +1,6 @@
 let participants = JSON.parse(localStorage.getItem('participants')) || [];
+let editMode = false;
+let deleteMode = false;
 
 function addParticipant() {
     const name = document.getElementById('name').value;
@@ -18,37 +20,32 @@ function updateParticipantsList() {
 
     participants.forEach((participant, index) => {
         const li = document.createElement('li');
-        li.textContent = participant;
+        li.className = 'participant-item';
 
-        // Contenedor de botones
+        const nameSpan = document.createElement('span');
+        nameSpan.textContent = participant;
+
         const actions = document.createElement('div');
-        actions.style.display = 'inline-block';
-        actions.style.marginLeft = '10px';
+        actions.className = 'actions';
 
         // Botón de editar
         const editBtn = document.createElement('button');
-        editBtn.innerHTML = '<i class="fas fa-pencil-alt"></i>'; // Ícono de lápiz
-        editBtn.title = 'Editar participante';
+        editBtn.innerHTML = '<i class="fas fa-pencil-alt"></i>';
+        editBtn.title = 'Editar';
         editBtn.onclick = () => editParticipant(index);
-        editBtn.style.marginRight = '5px';
+        actions.appendChild(editBtn);
 
         // Botón de eliminar
         const deleteBtn = document.createElement('button');
-        deleteBtn.innerHTML = '<i class="fas fa-trash"></i>'; // Ícono de basura
-        deleteBtn.title = 'Eliminar participante';
+        deleteBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
+        deleteBtn.title = 'Eliminar';
         deleteBtn.onclick = () => deleteParticipant(index);
-
-        // Añadir botones a las acciones
-        actions.appendChild(editBtn);
         actions.appendChild(deleteBtn);
 
+        li.appendChild(nameSpan);
         li.appendChild(actions);
         list.appendChild(li);
     });
-
-    // Mostrar u ocultar el botón para limpiar la lista
-    const clearListBtn = document.getElementById('clearListBtn');
-    clearListBtn.style.display = participants.length > 0 ? 'block' : 'none';
 }
 
 function saveParticipants() {
@@ -56,7 +53,7 @@ function saveParticipants() {
 }
 
 function clearParticipants() {
-    if (confirm('¿Estás seguro de que deseas eliminar toda la lista de participantes?')) {
+    if (confirm('¿Estás seguro de que deseas eliminar a todos los participantes?')) {
         participants = [];
         updateParticipantsList();
         saveParticipants();
@@ -76,10 +73,6 @@ function pickWinner() {
 
     digitalBoard.classList.remove('winner');
 
-    const pickWinnerBtn = document.getElementById('pickWinnerBtn');
-    pickWinnerBtn.style.backgroundColor = 'green';
-    pickWinnerBtn.style.color = 'black';
-
     const interval = setInterval(() => {
         digitalBoard.textContent = participants[currentIndex];
         currentIndex = (currentIndex + 1) % participants.length;
@@ -90,10 +83,6 @@ function pickWinner() {
         const winnerIndex = Math.floor(Math.random() * participants.length);
         digitalBoard.textContent = `¡El ganador es: ${participants[winnerIndex]}!`;
         digitalBoard.classList.add('winner');
-
-        // Restaurar el color original del botón
-        pickWinnerBtn.style.backgroundColor = '#333';
-        pickWinnerBtn.style.color = 'white';
     }, duration);
 }
 
