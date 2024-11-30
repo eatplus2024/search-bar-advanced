@@ -1,4 +1,3 @@
-/* style.css */
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f9;
@@ -13,14 +12,9 @@ body {
     margin: 20px auto;
     text-align: center;
     background: #fff;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     padding: 20px;
-}
-
-.logo {
-    max-width: 100px;
-    margin: 0 auto 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 h1, h2 {
@@ -30,7 +24,7 @@ h1, h2 {
 input#name {
     width: calc(100% - 30px);
     padding: 10px;
-    margin-bottom: 10px;
+    margin: 10px 0;
     border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 16px;
@@ -38,11 +32,10 @@ input#name {
 
 button {
     padding: 10px 15px;
-    margin: 5px;
     border: none;
     border-radius: 4px;
     background-color: #007bff;
-    color: #fff;
+    color: white;
     font-size: 16px;
     cursor: pointer;
 }
@@ -51,16 +44,16 @@ button:hover {
     background-color: #0056b3;
 }
 
-/* Botones con iconos */
 .buttons-container button {
+    margin: 5px;
     background-color: #f8f9fa;
     border: 1px solid #ddd;
     border-radius: 50%;
     width: 40px;
     height: 40px;
     display: inline-flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     font-size: 18px;
     cursor: pointer;
     transition: background-color 0.3s ease;
@@ -71,38 +64,34 @@ button:hover {
 }
 
 .glass-box {
+    margin-top: 20px;
     background: rgba(255, 255, 255, 0.9);
     border: 1px solid #ddd;
     padding: 10px;
     border-radius: 8px;
-    margin-top: 20px;
 }
 
 #participantsList {
-    list-style-type: none;
+    list-style: none;
     padding: 0;
-    margin: 0;
 }
 
-#participantsList li {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
+.participant-item {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
 }
 
-#participantsList li:last-child {
+.participant-item:last-child {
     border-bottom: none;
 }
 
-#digitalBoard {
-    font-size: 20px;
-    margin: 15px 0;
-    color: #333;
+.actions button {
+    margin-left: 5px;
 }
 
-#winner {
-    color: green;
-    font-weight: bold;
+.logo {
+    max-width: 100px;
+    margin: 20px auto;
 }
