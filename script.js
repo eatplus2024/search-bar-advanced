@@ -3,12 +3,13 @@ let editMode = false;
 let deleteMode = false;
 
 function addParticipant() {
-    const name = document.getElementById('name').value;
+    const nameInput = document.getElementById('name');
+    const name = nameInput.value.trim(); // Eliminar espacios innecesarios
     if (name) {
         participants.push(name);
-        updateParticipantsList();
         saveParticipants();
-        document.getElementById('name').value = ''; // Limpiar el campo de entrada
+        updateParticipantsList();
+        nameInput.value = ''; // Limpiar el campo de entrada
     } else {
         alert("Por favor, ingresa un nombre.");
     }
@@ -20,43 +21,43 @@ function updateParticipantsList() {
 
     participants.forEach((participant, index) => {
         const li = document.createElement('li');
-        li.className = 'participant-item';
-
-        const nameSpan = document.createElement('span');
-        nameSpan.textContent = participant;
+        li.textContent = participant;
 
         const actions = document.createElement('div');
-        actions.className = 'actions';
+        actions.className = 'actions'; // Clase para estilos adicionales
 
-        // Botón de editar
-        const editBtn = document.createElement('button');
-        editBtn.innerHTML = '<i class="fas fa-pencil-alt"></i>';
-        editBtn.title = 'Editar';
-        editBtn.onclick = () => editParticipant(index);
-        actions.appendChild(editBtn);
+        if (editMode) {
+            const editBtn = document.createElement('button');
+            editBtn.innerHTML = '<i class="fas fa-edit"></i>';
+            editBtn.onclick = () => editParticipant(index);
+            actions.appendChild(editBtn);
+        }
 
-        // Botón de eliminar
-        const deleteBtn = document.createElement('button');
-        deleteBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
-        deleteBtn.title = 'Eliminar';
-        deleteBtn.onclick = () => deleteParticipant(index);
-        actions.appendChild(deleteBtn);
+        if (deleteMode) {
+            const deleteBtn = document.createElement('button');
+            deleteBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
+            deleteBtn.onclick = () => deleteParticipant(index);
+            actions.appendChild(deleteBtn);
+        }
 
-        li.appendChild(nameSpan);
         li.appendChild(actions);
         list.appendChild(li);
     });
 }
 
 function saveParticipants() {
-    localStorage.setItem('participants', JSON.stringify(participants));
+    try {
+        localStorage.setItem('participants', JSON.stringify(participants));
+    } catch (error) {
+        alert("Error al guardar los participantes. Verifica que tu navegador permita el uso de localStorage.");
+    }
 }
 
 function clearParticipants() {
-    if (confirm('¿Estás seguro de que deseas eliminar a todos los participantes?')) {
+    if (confirm("¿Estás seguro de que quieres eliminar a todos los participantes?")) {
         participants = [];
-        updateParticipantsList();
         saveParticipants();
+        updateParticipantsList();
     }
 }
 
@@ -86,22 +87,34 @@ function pickWinner() {
     }, duration);
 }
 
+function toggleEditMode() {
+    editMode = !editMode;
+    updateParticipantsList();
+}
+
+function toggleDeleteMode() {
+    deleteMode = !deleteMode;
+    updateParticipantsList();
+}
+
 function editParticipant(index) {
     const newName = prompt('Ingresa el nuevo nombre:', participants[index]);
     if (newName) {
-        participants[index] = newName;
-        updateParticipantsList();
+        participants[index] = newName.trim();
         saveParticipants();
+        updateParticipantsList();
     }
 }
 
 function deleteParticipant(index) {
     if (confirm(`¿Estás seguro de que quieres eliminar a ${participants[index]}?`)) {
         participants.splice(index, 1);
-        updateParticipantsList();
         saveParticipants();
+        updateParticipantsList();
     }
 }
 
 // Actualiza la lista de participantes al cargar la página
-window.onload = updateParticipantsList;
+window.onload = () => {
+    updateParticipantsList();
+};
