@@ -43,6 +43,9 @@ function updateParticipantsList() {
         li.appendChild(actions);
         list.appendChild(li);
     });
+
+    // Mostrar el logotipo en la parte inferior
+    displayLogoAtBottom();
 }
 
 function saveParticipants() {
@@ -68,23 +71,17 @@ function pickWinner() {
     }
 
     const digitalBoard = document.getElementById('digitalBoard');
-    let currentIndex = 0;
-    const speed = 100; // Velocidad de cambio de nombre en milisegundos
-    const duration = 5000; // Duración total del efecto en milisegundos
-
     digitalBoard.classList.remove('winner');
 
-    const interval = setInterval(() => {
-        digitalBoard.textContent = participants[currentIndex];
-        currentIndex = (currentIndex + 1) % participants.length;
-    }, speed);
+    // Seleccionar un ganador aleatorio directamente
+    const winnerIndex = Math.floor(Math.random() * participants.length);
+    const winner = participants[winnerIndex];
 
+    // Mostrar el ganador con un pequeño retraso para el efecto
     setTimeout(() => {
-        clearInterval(interval);
-        const winnerIndex = Math.floor(Math.random() * participants.length);
-        digitalBoard.textContent = `¡El ganador es: ${participants[winnerIndex]}!`;
+        digitalBoard.textContent = `¡El ganador es: ${winner}!`;
         digitalBoard.classList.add('winner');
-    }, duration);
+    }, 500); // Pequeño retraso para mostrar el resultado
 }
 
 function toggleEditMode() {
@@ -112,6 +109,19 @@ function deleteParticipant(index) {
         saveParticipants();
         updateParticipantsList();
     }
+}
+
+// Mostrar el logotipo en la parte inferior
+function displayLogoAtBottom() {
+    const logoContainer = document.getElementById('logoContainer');
+    logoContainer.innerHTML = ''; // Limpiar contenido anterior
+
+    const logo = document.createElement('img');
+    logo.src = 'logo.png'; // Reemplaza con la URL o ruta de tu logotipo
+    logo.alt = 'Logotipo';
+    logo.className = 'logo-bottom'; // Clase para estilos adicionales
+
+    logoContainer.appendChild(logo);
 }
 
 // Actualiza la lista de participantes al cargar la página
