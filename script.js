@@ -74,18 +74,23 @@ function pickWinner() {
     const digitalBoard = document.getElementById('digitalBoard');
     digitalBoard.classList.remove('winner');
 
-    // Seleccionar un ganador aleatorio directamente
-    const winnerIndex = Math.floor(Math.random() * participants.length);
-    const winner = participants[winnerIndex];
+    let currentIndex = 0;
+    const interval = setInterval(() => {
+        digitalBoard.textContent = participants[currentIndex];
+        currentIndex = (currentIndex + 1) % participants.length;
+    }, 100);
 
-    // Mostrar el ganador con un pequeño retraso para el efecto
     setTimeout(() => {
+        clearInterval(interval);
+        const winnerIndex = Math.floor(Math.random() * participants.length);
+        const winner = participants[winnerIndex];
+
         digitalBoard.innerHTML = `
             <img src="logo.png" alt="Logotipo" class="logo-small">
             <p>¡El ganador es: <strong>${winner}</strong>!</p>
         `;
         digitalBoard.classList.add('winner');
-    }, 500); // Pequeño retraso para mostrar el resultado
+    }, 5000); // Mostrar nombres durante 5 segundos antes de mostrar el ganador
 }
 
 function toggleEditMode() {
