@@ -1,3 +1,4 @@
+// Inicializar participantes desde localStorage
 let participants = JSON.parse(localStorage.getItem('participants')) || [];
 let editMode = false;
 let deleteMode = false;
@@ -79,7 +80,10 @@ function pickWinner() {
 
     // Mostrar el ganador con un pequeño retraso para el efecto
     setTimeout(() => {
-        digitalBoard.textContent = `¡El ganador es: ${winner}!`;
+        digitalBoard.innerHTML = `
+            <img src="logo.png" alt="Logotipo" class="logo-small">
+            <p>¡El ganador es: <strong>${winner}</strong>!</p>
+        `;
         digitalBoard.classList.add('winner');
     }, 500); // Pequeño retraso para mostrar el resultado
 }
