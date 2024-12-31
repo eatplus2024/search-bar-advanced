@@ -74,10 +74,16 @@ function pickWinner() {
     const digitalBoard = document.getElementById('digitalBoard');
     digitalBoard.classList.remove('winner');
 
+    const shuffledParticipants = [...participants];
+    for (let i = shuffledParticipants.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffledParticipants[i], shuffledParticipants[j]] = [shuffledParticipants[j], shuffledParticipants[i]];
+    }
+
     let currentIndex = 0;
     const interval = setInterval(() => {
-        digitalBoard.textContent = participants[currentIndex];
-        currentIndex = (currentIndex + 1) % participants.length;
+        digitalBoard.textContent = shuffledParticipants[currentIndex];
+        currentIndex = (currentIndex + 1) % shuffledParticipants.length;
     }, 100);
 
     setTimeout(() => {
