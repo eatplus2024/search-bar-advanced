@@ -44,9 +44,6 @@ function updateParticipantsList() {
         li.appendChild(actions);
         list.appendChild(li);
     });
-
-    // Mostrar el logotipo en la parte inferior
-    displayLogoAtBottom();
 }
 
 function saveParticipants() {
@@ -72,31 +69,32 @@ function pickWinner() {
     }
 
     const digitalBoard = document.getElementById('digitalBoard');
+    let displayedParticipants = shuffleArray([...participants]);
+    let currentIndex = 0;
+    const speed = 100; // Velocidad de cambio de nombre en milisegundos
+    const duration = 5000; // Duración total del efecto en milisegundos
+
     digitalBoard.classList.remove('winner');
 
-    const shuffledParticipants = [...participants];
-    for (let i = shuffledParticipants.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [shuffledParticipants[i], shuffledParticipants[j]] = [shuffledParticipants[j], shuffledParticipants[i]];
-    }
-
-    let currentIndex = 0;
     const interval = setInterval(() => {
-        digitalBoard.textContent = shuffledParticipants[currentIndex];
-        currentIndex = (currentIndex + 1) % shuffledParticipants.length;
-    }, 100);
+        digitalBoard.textContent = displayedParticipants[currentIndex];
+        currentIndex = (currentIndex + 1) % displayedParticipants.length;
+    }, speed);
 
     setTimeout(() => {
         clearInterval(interval);
         const winnerIndex = Math.floor(Math.random() * participants.length);
-        const winner = participants[winnerIndex];
-
-        digitalBoard.innerHTML = `
-            <img src="logo.png" alt="Logotipo" class="logo-small">
-            <p>¡El ganador es: <strong>${winner}</strong>!</p>
-        `;
+        digitalBoard.textContent = `¡El ganador es: ${participants[winnerIndex]}!`;
         digitalBoard.classList.add('winner');
-    }, 5000); // Mostrar nombres durante 5 segundos antes de mostrar el ganador
+    }, duration);
+}
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
 }
 
 function toggleEditMode() {
@@ -124,19 +122,6 @@ function deleteParticipant(index) {
         saveParticipants();
         updateParticipantsList();
     }
-}
-
-// Mostrar el logotipo en la parte inferior
-function displayLogoAtBottom() {
-    const logoContainer = document.getElementById('logoContainer');
-    logoContainer.innerHTML = ''; // Limpiar contenido anterior
-
-    const logo = document.createElement('img');
-    logo.src = 'logo.png'; // Reemplaza con la URL o ruta de tu logotipo
-    logo.alt = 'Logotipo';
-    logo.className = 'logo-bottom'; // Clase para estilos adicionales
-
-    logoContainer.appendChild(logo);
 }
 
 // Actualiza la lista de participantes al cargar la página
