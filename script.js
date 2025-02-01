@@ -1,13 +1,19 @@
-// Inicializar participantes desde localStorage
 let participants = JSON.parse(localStorage.getItem('participants')) || [];
 let editMode = false;
 let deleteMode = false;
-let excludedParticipants = ["Nombre1", "Nombre2"]; // Lista de excluidos
+
+// Lista de nombres excluidos (sin distinguir mayúsculas, minúsculas ni acentos)
+const excludedParticipants = ["ángel barrera"].map(name => name.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase());
 
 function addParticipant() {
     const nameInput = document.getElementById('name');
-    const name = nameInput.value.trim();
+    let name = nameInput.value.trim();
     if (name) {
+        let normalizedName = name.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase();
+        if (excludedParticipants.includes(normalizedName)) {
+            alert("Este participante está excluido del sorteo.");
+            return;
+        }
         participants.push(name);
         saveParticipants();
         updateParticipantsList();
@@ -20,7 +26,6 @@ function addParticipant() {
 function updateParticipantsList() {
     const list = document.getElementById('participantsList');
     list.innerHTML = '';
-
     participants.forEach((participant, index) => {
         const li = document.createElement('li');
         li.textContent = participant;
@@ -28,19 +33,15 @@ function updateParticipantsList() {
         const actions = document.createElement('div');
         actions.className = 'actions';
 
-        if (editMode) {
-            const editBtn = document.createElement('button');
-            editBtn.innerHTML = '<i class="fas fa-edit"></i>';
-            editBtn.onclick = () => editParticipant(index);
-            actions.appendChild(editBtn);
-        }
+        const deleteBtn = document.createElement('button');
+        deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
+        deleteBtn.onclick = () => deleteParticipant(index);
+        actions.appendChild(deleteBtn);
 
-        if (deleteMode) {
-            const deleteBtn = document.createElement('button');
-            deleteBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
-            deleteBtn.onclick = () => deleteParticipant(index);
-            actions.appendChild(deleteBtn);
-        }
+        const editBtn = document.createElement('button');
+        editBtn.innerHTML = '<i class="fas fa-pencil-alt"></i>';
+        editBtn.onclick = () => editParticipant(index);
+        actions.appendChild(editBtn);
 
         li.appendChild(actions);
         list.appendChild(li);
@@ -60,31 +61,19 @@ function clearParticipants() {
 }
 
 function pickWinner() {
-    let filteredParticipants = participants.filter(p => !excludedParticipants.includes(p));
-    if (filteredParticipants.length === 0) {
-        alert('No hay participantes elegibles para elegir.');
+    if (participants.length === 0) {
+        alert('No hay participantes para elegir.');
         return;
     }
-
-    const digitalBoard = document.getElementById('digitalBoard');
-    let displayedParticipants = shuffleArray([...filteredParticipants]);
-    let currentIndex = 0;
-    const speed = 100;
-    const duration = 5000;
-
-    digitalBoard.classList.remove('winner');
-
-    const interval = setInterval(() => {
-        digitalBoard.textContent = displayedParticipants[currentIndex];
-        currentIndex = (currentIndex + 1) % displayedParticipants.length;
-    }, speed);
-
-    setTimeout(() => {
-        clearInterval(interval);
-        const winnerIndex = Math.floor(Math.random() * filteredParticipants.length);
-        digitalBoard.textContent = `¡El ganador es: ${filteredParticipants[winnerIndex]}!`;
-        digitalBoard.classList.add('winner');
-    }, duration);
+    let availableParticipants = participants.filter(name => 
+        !excludedParticipants.includes(name.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase())
+    );
+    if (availableParticipants.length === 0) {
+        alert("No hay participantes elegibles después de aplicar exclusiones.");
+        return;
+    }
+    const winnerIndex = Math.floor(Math.random() * availableParticipants.length);
+    document.getElementById('digitalBoard').textContent = `¡El ganador es: ${availableParticipants[winnerIndex]}!`;
 }
 
 function toggleEditMode() {
