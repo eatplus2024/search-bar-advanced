@@ -2,15 +2,16 @@
 let participants = JSON.parse(localStorage.getItem('participants')) || [];
 let editMode = false;
 let deleteMode = false;
+let excludedParticipants = ["Nombre1", "Nombre2"]; // Lista de excluidos
 
 function addParticipant() {
     const nameInput = document.getElementById('name');
-    const name = nameInput.value.trim(); // Eliminar espacios innecesarios
+    const name = nameInput.value.trim();
     if (name) {
         participants.push(name);
         saveParticipants();
         updateParticipantsList();
-        nameInput.value = ''; // Limpiar el campo de entrada
+        nameInput.value = '';
     } else {
         alert("Por favor, ingresa un nombre.");
     }
@@ -25,7 +26,7 @@ function updateParticipantsList() {
         li.textContent = participant;
 
         const actions = document.createElement('div');
-        actions.className = 'actions'; // Clase para estilos adicionales
+        actions.className = 'actions';
 
         if (editMode) {
             const editBtn = document.createElement('button');
@@ -47,11 +48,7 @@ function updateParticipantsList() {
 }
 
 function saveParticipants() {
-    try {
-        localStorage.setItem('participants', JSON.stringify(participants));
-    } catch (error) {
-        alert("Error al guardar los participantes. Verifica que tu navegador permita el uso de localStorage.");
-    }
+    localStorage.setItem('participants', JSON.stringify(participants));
 }
 
 function clearParticipants() {
@@ -63,16 +60,17 @@ function clearParticipants() {
 }
 
 function pickWinner() {
-    if (participants.length === 0) {
-        alert('No hay participantes para elegir.');
+    let filteredParticipants = participants.filter(p => !excludedParticipants.includes(p));
+    if (filteredParticipants.length === 0) {
+        alert('No hay participantes elegibles para elegir.');
         return;
     }
 
     const digitalBoard = document.getElementById('digitalBoard');
-    let displayedParticipants = shuffleArray([...participants]);
+    let displayedParticipants = shuffleArray([...filteredParticipants]);
     let currentIndex = 0;
-    const speed = 100; // Velocidad de cambio de nombre en milisegundos
-    const duration = 5000; // Duración total del efecto en milisegundos
+    const speed = 100;
+    const duration = 5000;
 
     digitalBoard.classList.remove('winner');
 
@@ -83,18 +81,10 @@ function pickWinner() {
 
     setTimeout(() => {
         clearInterval(interval);
-        const winnerIndex = Math.floor(Math.random() * participants.length);
-        digitalBoard.textContent = `¡El ganador es: ${participants[winnerIndex]}!`;
+        const winnerIndex = Math.floor(Math.random() * filteredParticipants.length);
+        digitalBoard.textContent = `¡El ganador es: ${filteredParticipants[winnerIndex]}!`;
         digitalBoard.classList.add('winner');
     }, duration);
-}
-
-function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
 }
 
 function toggleEditMode() {
@@ -124,7 +114,6 @@ function deleteParticipant(index) {
     }
 }
 
-// Actualiza la lista de participantes al cargar la página
 window.onload = () => {
     updateParticipantsList();
 };
